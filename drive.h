@@ -38,6 +38,28 @@
         TIM_CtrlPWMOutputs(_TIMx, ENABLE);                                             \
     }
 
+// 通用的单个ADC初始化
+// 别忘记RCC时钟
+// 外部触发提前配号PWM输出 DRIVE_TIM_PWM_INIT(TIM2, 2, TIM_OCMode_PWM1, 9, TIM_OCPolarity_Low, 9, 7199);
+// 使用外部触发的情况下需要手动 ADC_ExternalTrigConvCmd(ADCx, ENABLE); 来启用外部触发
+#define DRIVE_ADC_INIT(_ADCx, _Channel, _ExternalTrig)                           \
+    {                                                                            \
+        ADC_InitTypeDef init;                                                    \
+        ADC_DeInit(_ADCx);                                                       \
+        ADC_StructInit(&init);                                                   \
+        init.ADC_ContinuousConvMode = DISABLE;                                   \
+        init.ADC_ExternalTrigConv = _ExternalTrig;                               \
+        ADC_Init(_ADCx, &init);                                                  \
+        ADC_Cmd(_ADCx, ENABLE);                                                  \
+        ADC_ResetCalibration(_ADCx);                                             \
+        ADC_StartCalibration(_ADCx);                                             \
+        while (ADC_GetResetCalibrationStatus(_ADCx)) {                           \
+        }                                                                        \
+        while (ADC_GetCalibrationStatus(_ADCx)) {                                \
+        }                                                                        \
+        ADC_RegularChannelConfig(_ADCx, _Channel, 1, ADC_SampleTime_239Cycles5); \
+    }
+
 // 用于从外设到内存的序列DMA的通用初始化宏
 #define DRIVE_DMA_PTM_INIT(_DMAC, _PADDR, _MADDR, _ARGS_COUNTS)            \
     {                                                                      \
