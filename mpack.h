@@ -7,7 +7,7 @@
 #include "stm32f10x_usart.h"
 
 typedef struct {
-    uint16_t *data;
+    uint8_t *data;
     unsigned int max;
     unsigned int cur;
 } MPack;
