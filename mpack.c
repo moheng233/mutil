@@ -21,7 +21,7 @@ void MPack_FreePack(MPack *pack)
 void MPack_PackInt(MPack *pack, int data)
 {
     if (pack->cur < pack->max) {
-        pack->data[pack->cur] = (uint16_t)data;
+        pack->data[pack->cur] = (uint8_t)data;
         pack->cur += 1;
     }
 }
@@ -30,6 +30,8 @@ void MPack_PackU16(MPack *pack, uint16_t data)
 {
     if (pack->cur < pack->max) {
         pack->data[pack->cur] = data;
+        pack->cur += 1;
+        pack->data[pack->cur] = data << 8;
         pack->cur += 1;
     }
 }
@@ -42,25 +44,32 @@ void MPack_PackChar(MPack *pack, char data)
     }
 }
 
+void MPack_PackStr(MPack *pack, char *data, size_t len)
+{
+    for (size_t i = 0; i < len; i++) {
+        MPack_PackChar(pack, data[i]);
+
+        if (data[i + 1] == '\0') {
+            break;
+        }
+    }
+}
+
 uint8_t MPack_CRC(uint8_t *data, uint16_t length)
 {
     uint8_t i;
-    uint8_t crc = 0x1F;                // Initial value
-    while(length--)
-    {
-        crc ^= *data++;                 // crc ^= *data; data++;
-        for (i = 0; i < 8; ++i)
-        {
+    uint8_t crc = 0x1F; // Initial value
+    while (length--) {
+        crc ^= *data++; // crc ^= *data; data++;
+        for (i = 0; i < 8; ++i) {
             if (crc & 1)
-                crc = (crc >> 1) ^ 0x14;// 0x14 = (reverse 0x05)>>(8-5)
+                crc = (crc >> 1) ^ 0x14; // 0x14 = (reverse 0x05)>>(8-5)
             else
                 crc = (crc >> 1);
         }
     }
     return crc ^ 0x1F;
 }
-
-
 
 void MPack_UsartSend(MPack *pack, USART_TypeDef *usart)
 {
