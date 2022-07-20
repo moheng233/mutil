@@ -1,7 +1,6 @@
 #include "mpack.h"
-#include <stdint.h>
-#include <stdlib.h>
 
+#if ENABLE_MPACK == 1
 MPack *MPack_CreatePack(unsigned int max)
 {
     MPack *pack = malloc(sizeof(MPack));
@@ -94,3 +93,4 @@ void MPack_UsartSend(MPack *pack, USART_TypeDef *usart)
 
     MPack_FreePack(pack);
 }
+#endif

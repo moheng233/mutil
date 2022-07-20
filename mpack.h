@@ -1,11 +1,14 @@
 #ifndef __LIB_MUTIL_MPACK
 #define __LIB_MUTIL_MPACK
 
-#include "stdlib.h"
+#include <stdlib.h>
 #include <stdint.h>
 
 #include "stm32f10x_usart.h"
 
+#include "mutil_conf_inter.h"
+
+#if ENABLE_MPACK == 1
 typedef struct {
     uint8_t *data;
     unsigned int max;
@@ -21,4 +24,5 @@ void MPack_PackInt(MPack *pack, int data);
 void MPack_PackChar(MPack *pack, char data);
 void MPack_PackU16(MPack *pack, uint16_t data);
 
+#endif
 #endif // !__LIB_MUTIL_MPACK

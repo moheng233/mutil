@@ -1,6 +1,10 @@
 #ifndef __LIB_MUTIL_DRIVE
 #define __LIB_MUTIL_DRIVE
 
+#include <stdint.h>
+
+#include "mutil_conf_inter.h"
+
 /// 标准通用GPIO初始化宏
 #define DRIVE_GPIO_INIT(_GPIOx, _PINx, _Mode)    \
     {                                            \
@@ -100,5 +104,40 @@
         DRIVE_NVIC_INIT(_TIMx##_IRQn, _CPP, _CSP);              \
         TIM_Cmd(_TIMx, ENABLE);                                 \
     }
+
+#if ENABLE_DRIVE == 1
+
+typedef enum {
+    RCCPeriphClock_GPIOA,
+    RCCPeriphClock_GPIOB,
+    RCCPeriphClock_GPIOC,
+    RCCPeriphClock_GPIOD,
+    RCCPeriphClock_GPIOE,
+    RCCPeriphClock_GPIOF,
+    RCCPeriphClock_TIM1,
+    RCCPeriphClock_TIM2,
+    RCCPeriphClock_TIM3,
+    RCCPeriphClock_TIM4,
+    RCCPeriphClock_TIM5,
+    RCCPeriphClock_TIM6,
+    RCCPeriphClock_TIM7,
+    RCCPeriphClock_TIM8,
+    RCCPeriphClock_SPI1,
+    RCCPeriphClock_USART1,
+    RCCPeriphClock_USART2,
+    RCCPeriphClock_USART3,
+    RCCPeriphClock_UART4,
+    RCCPeriphClock_UART5,
+    RCCPeriphClock_ADC1,
+    RCCPeriphClock_ADC2,
+    RCCPeriphClock_ADC3
+    
+} RCCPeriphClock;
+
+/// 只适配于STM32F103已测试系列的通用RCC使能函数
+/// 反正比标准库的好用
+void DRIVE_RCC_ENABLE(RCCPeriphClock clock);
+
+#endif
 
 #endif // !__SRC_UTIL_DRIVE
