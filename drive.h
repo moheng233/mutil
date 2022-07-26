@@ -3,7 +3,13 @@
 
 #include <stdint.h>
 
+#include "stm32f10x_conf.h"
+
 #include "mutil_conf_inter.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /// 标准通用GPIO初始化宏
 #define DRIVE_GPIO_INIT(_GPIOx, _PINx, _Mode)    \
@@ -29,17 +35,25 @@
     }
 
 /// 用于PWM输出的时钟通用初始化宏
-#define DRIVE_TIM_PWM_INIT(_TIMx, _Channel, _Mode, _Pulse, _OCPolarity, _RELOAD, _PSC) \
-    {                                                                                  \
-        TIM_OCInitTypeDef TIM_OCInitStructure;                                         \
-        DRIVE_TIM_INIT(_TIMx, _RELOAD, _PSC);                                          \
-        TIM_OCInitStructure.TIM_OCMode = _Mode;                                        \
-        TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;                  \
-        TIM_OCInitStructure.TIM_Pulse = _Pulse;                                        \
-        TIM_OCInitStructure.TIM_OCPolarity = _OCPolarity;                              \
-        TIM_OC##_Channel##Init(_TIMx, &TIM_OCInitStructure);                           \
-        TIM_Cmd(_TIMx, ENABLE);                                                        \
-        TIM_CtrlPWMOutputs(_TIMx, ENABLE);                                             \
+#define DRIVE_TIM_PWM_INIT(_TIMx, _Channel, _Mode, _Pulse, _OCPolarity) \
+    {                                                                   \
+        TIM_OCInitTypeDef TIM_OCInitStructure;                          \
+        TIM_OCInitStructure.TIM_OCMode = _Mode;                         \
+        TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;   \
+        TIM_OCInitStructure.TIM_Pulse = _Pulse;                         \
+        TIM_OCInitStructure.TIM_OCPolarity = _OCPolarity;               \
+        TIM_OC##_Channel##Init(_TIMx, &TIM_OCInitStructure);            \
+    }
+
+#define DRIVE_TIM_IC_INIT(_TIMx, _CH, _PLA, _FILTER) \
+    {                                                \
+        TIM_ICInitTypeDef init;                      \
+        TIM_ICStructInit(&init);                     \
+        init.TIM_Channel = _CH;                      \
+        init.TIM_ICPolarity = _PLA;                  \
+        init.TIM_ICPrescaler = TIM_ICPSC_DIV1;       \
+        init.TIM_ICFilter = _FILTER;                 \
+        TIM_ICInit(_TIMx, &init);                    \
     }
 
 // 通用的单个ADC初始化
@@ -57,33 +71,31 @@
         ADC_Cmd(_ADCx, ENABLE);                                                  \
         ADC_ResetCalibration(_ADCx);                                             \
         ADC_StartCalibration(_ADCx);                                             \
-        while (ADC_GetResetCalibrationStatus(_ADCx)) {                           \
-        }                                                                        \
-        while (ADC_GetCalibrationStatus(_ADCx)) {                                \
-        }                                                                        \
+        while (ADC_GetResetCalibrationStatus(_ADCx)) {}                          \
+        while (ADC_GetCalibrationStatus(_ADCx)) {}                               \
         ADC_RegularChannelConfig(_ADCx, _Channel, 1, ADC_SampleTime_239Cycles5); \
     }
 
 /// 用于从外设到内存的序列DMA的通用初始化宏
-#define DRIVE_DMA_PTM_INIT(_DMAC, _PADDR, _MADDR, _ARGS_COUNTS)            \
-    {                                                                      \
-        DMA_DeInit(_DMAC);                                                 \
-        {                                                                  \
-            DMA_InitTypeDef init;                                          \
-            init.DMA_PeripheralBaseAddr = (uint32_t)_PADDR;                \
-            init.DMA_MemoryBaseAddr = (uint32_t)_MADDR;                    \
-            init.DMA_DIR = DMA_DIR_PeripheralSRC;                          \
-            init.DMA_BufferSize = _ARGS_COUNTS;                            \
-            init.DMA_PeripheralInc = DMA_PeripheralInc_Disable;            \
-            init.DMA_MemoryInc = DMA_MemoryInc_Enable;                     \
-            init.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord; \
-            init.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;         \
-            init.DMA_Mode = DMA_Mode_Circular;                             \
-            init.DMA_Priority = DMA_Priority_High;                         \
-            init.DMA_M2M = DMA_M2M_Disable;                                \
-            DMA_Init(_DMAC, &init);                                        \
-        }                                                                  \
-        DMA_Cmd(_DMAC, ENABLE);                                            \
+#define DRIVE_DMA_PTM_INIT(_DMAC, _PADDR, _MADDR, _ARGS_COUNTS, _PDATA_SIZE, MDATA_SIZE) \
+    {                                                                                    \
+        DMA_DeInit(_DMAC);                                                               \
+        {                                                                                \
+            DMA_InitTypeDef init;                                                        \
+            init.DMA_PeripheralBaseAddr = (uint32_t)_PADDR;                              \
+            init.DMA_MemoryBaseAddr = (uint32_t)_MADDR;                                  \
+            init.DMA_DIR = DMA_DIR_PeripheralSRC;                                        \
+            init.DMA_BufferSize = _ARGS_COUNTS;                                          \
+            init.DMA_PeripheralInc = DMA_PeripheralInc_Disable;                          \
+            init.DMA_MemoryInc = DMA_MemoryInc_Enable;                                   \
+            init.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;               \
+            init.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;                       \
+            init.DMA_Mode = DMA_Mode_Circular;                                           \
+            init.DMA_Priority = DMA_Priority_High;                                       \
+            init.DMA_M2M = DMA_M2M_Disable;                                              \
+            DMA_Init(_DMAC, &init);                                                      \
+        }                                                                                \
+        DMA_Cmd(_DMAC, ENABLE);                                                          \
     }
 
 #define DRIVE_NVIC_INIT(_CHANNEL, _CPP, _CSP)          \
@@ -111,6 +123,13 @@
 /// 反正比标准库的好用
 void DRIVE_RCC_ENABLE(uint32_t clock);
 
+/// 获得对应通道的TIM捕获值
+uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint8_t Channel);
+
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif // !__SRC_UTIL_DRIVE

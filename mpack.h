@@ -1,13 +1,15 @@
 #ifndef __LIB_MUTIL_MPACK
 #define __LIB_MUTIL_MPACK
 
-#include <stdlib.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "stm32f10x_usart.h"
 
 #include "mutil_conf_inter.h"
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #if ENABLE_MPACK == 1
 typedef struct {
     uint8_t *data;
@@ -34,5 +36,8 @@ void MPack_PackChar(MPack *pack, char data);
 /// 将一个UInt16类型附加到数据包的结尾
 void MPack_PackU16(MPack *pack, uint16_t data);
 
+#endif
+#ifdef __cplusplus
+}
 #endif
 #endif // !__LIB_MUTIL_MPACK

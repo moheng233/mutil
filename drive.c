@@ -91,4 +91,25 @@ void DRIVE_RCC_ENABLE(uint32_t clock)
     }
 }
 
+uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint8_t Channel) {
+    switch (Channel)
+    {
+    case 1:
+        return TIM_GetCapture1(TIMx);
+        break;
+    case 2:
+        return TIM_GetCapture2(TIMx);
+        break;
+    case 3:
+        return TIM_GetCapture3(TIMx);
+        break;
+    case 4:
+        return TIM_GetCapture4(TIMx);
+        break;
+    default:
+        return 0;
+        break;
+    }
+}
+
 #endif
