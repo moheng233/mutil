@@ -5,10 +5,6 @@
 
 #include <stm32f10x.h>
 
-#define DRIVE_LED1
-#define DRIVE_LED1_GPIO GPIOE
-#define DRIVE_LED1_PIN  GPIO_Pin_12
-
 // 通用初始化LED
 #define DRIVE_LED_INIT(_DRIVE_LED)                                              \
     {                                                                           \
@@ -23,6 +19,11 @@
 #define DRIVE_LED_DISABLE(_DRIVE_LED)                      \
     {                                                      \
         GPIO_SetBits(_DRIVE_LED##_GPIO, _DRIVE_LED##_PIN); \
+    }
+
+#define DRIVE_LED_SWATCH(_DRIVE_LED)                                                                                     \
+    {                                                                                                                    \
+        GPIO_WriteBit(_DRIVE_LED##_GPIO, _DRIVE_LED##_PIN, !GPIO_ReadInputDataBit(_DRIVE_LED##_GPIO, _DRIVE_LED##_PIN)); \
     }
 
 #define DRIVE_LED_GET_STATE(_DRIVE_LED) GPIO_ReadOutputDataBit(_DRIVE_LED##_GPIO, _DRIVE_LED##_PIN)
