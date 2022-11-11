@@ -22,6 +22,6 @@ void Systick_Update() {
     ticks += 1;
 }
 
-uint64_t Systick_tick() {
+__INLINE uint64_t Systick_tick() {
     return ticks;
 }

@@ -3,7 +3,7 @@
 
 #include "stdint.h"
 
-// extern uint64_t ticks;
+extern volatile uint64_t ticks;
 
 void Systick_Init(uint32_t frequency);
 

@@ -14,6 +14,7 @@ extern "C" {
 /// 标准通用GPIO初始化宏
 #define DRIVE_GPIO_INIT(_GPIOx, _PINx, _Mode)    \
     {                                            \
+        DRIVE_RCC_ENABLE((uint32_t)_GPIOx);      \
         GPIO_InitTypeDef gpio_init;              \
         gpio_init.GPIO_Pin = _PINx;              \
         gpio_init.GPIO_Mode = _Mode;             \
@@ -124,7 +125,8 @@ extern "C" {
 void DRIVE_RCC_ENABLE(uint32_t clock);
 
 /// 获得对应通道的TIM捕获值
-uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint8_t Channel);
+uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint16_t Channel);
+void DRIVE_TIM_SET_CAPTURE(TIM_TypeDef *TIMx, uint16_t Channel, uint16_t Value);
 
 #endif
 

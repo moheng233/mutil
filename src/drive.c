@@ -11,104 +11,126 @@
 void DRIVE_RCC_ENABLE(uint32_t clock)
 {
     switch (clock) {
-    case (uint32_t)GPIOA:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOA);
-        break;
-    case (uint32_t)GPIOB:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOB);
-        break;
-    case (uint32_t)GPIOC:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOC);
-        break;
-    case (uint32_t)GPIOD:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOD);
-        break;
-    case (uint32_t)GPIOE:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOE);
-        break;
-    case (uint32_t)GPIOF:
-        DRIVE_RCC_ENABLE_HELPER(APB2, GPIOF);
-        break;
-    case (uint32_t)TIM1:
-        DRIVE_RCC_ENABLE_HELPER(APB2, TIM1);
-        break;
-    case (uint32_t)TIM8:
-        DRIVE_RCC_ENABLE_HELPER(APB2, TIM8);
-        break;
-    case (uint32_t)SPI1:
-        DRIVE_RCC_ENABLE_HELPER(APB2, SPI1);
-        break;
-    case (uint32_t)USART1:
-        DRIVE_RCC_ENABLE_HELPER(APB2, USART1);
-        break;
-    case (uint32_t)ADC1:
-        DRIVE_RCC_ENABLE_HELPER(APB2, ADC1);
-        break;
-    case (uint32_t)ADC2:
-        DRIVE_RCC_ENABLE_HELPER(APB2, ADC2);
-        break;
-    case (uint32_t)ADC3:
-        DRIVE_RCC_ENABLE_HELPER(APB2, ADC3);
-        break;
-    case (uint32_t)TIM2:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM2);
-        break;
-    case (uint32_t)TIM3:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM3);
-        break;
-    case (uint32_t)TIM4:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM4);
-        break;
-    case (uint32_t)TIM5:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM5);
-        break;
-    case (uint32_t)TIM6:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM6);
-        break;
-    case (uint32_t)TIM7:
-        DRIVE_RCC_ENABLE_HELPER(APB1, TIM7);
-        break;
-    case (uint32_t)USART2:
-        DRIVE_RCC_ENABLE_HELPER(APB1, USART2);
-        break;
-    case (uint32_t)USART3:
-        DRIVE_RCC_ENABLE_HELPER(APB1, USART3);
-        break;
-    case (uint32_t)UART4:
-        DRIVE_RCC_ENABLE_HELPER(APB1, UART4);
-        break;
-    case (uint32_t)UART5:
-        DRIVE_RCC_ENABLE_HELPER(APB1, UART5);
-        break;
-    case (uint32_t)DMA1:
-        DRIVE_RCC_ENABLE_HELPER(AHB, DMA1);
-        break;
-    case (uint32_t)DMA2:
-        DRIVE_RCC_ENABLE_HELPER(AHB, DMA2);
-        break;
-    default:
-        break;
+        case (uint32_t)GPIOA:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOA);
+            break;
+        case (uint32_t)GPIOB:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOB);
+            break;
+        case (uint32_t)GPIOC:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOC);
+            break;
+        case (uint32_t)GPIOD:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOD);
+            break;
+        case (uint32_t)GPIOE:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOE);
+            break;
+        case (uint32_t)GPIOF:
+            DRIVE_RCC_ENABLE_HELPER(APB2, GPIOF);
+            break;
+        case (uint32_t)TIM1:
+            DRIVE_RCC_ENABLE_HELPER(APB2, TIM1);
+            break;
+        case (uint32_t)TIM8:
+            DRIVE_RCC_ENABLE_HELPER(APB2, TIM8);
+            break;
+        case (uint32_t)SPI1:
+            DRIVE_RCC_ENABLE_HELPER(APB2, SPI1);
+            break;
+        case (uint32_t)USART1:
+            DRIVE_RCC_ENABLE_HELPER(APB2, USART1);
+            break;
+        case (uint32_t)ADC1:
+            DRIVE_RCC_ENABLE_HELPER(APB2, ADC1);
+            break;
+        case (uint32_t)ADC2:
+            DRIVE_RCC_ENABLE_HELPER(APB2, ADC2);
+            break;
+        case (uint32_t)ADC3:
+            DRIVE_RCC_ENABLE_HELPER(APB2, ADC3);
+            break;
+        case (uint32_t)TIM2:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM2);
+            break;
+        case (uint32_t)TIM3:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM3);
+            break;
+        case (uint32_t)TIM4:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM4);
+            break;
+        case (uint32_t)TIM5:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM5);
+            break;
+        case (uint32_t)TIM6:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM6);
+            break;
+        case (uint32_t)TIM7:
+            DRIVE_RCC_ENABLE_HELPER(APB1, TIM7);
+            break;
+        case (uint32_t)USART2:
+            DRIVE_RCC_ENABLE_HELPER(APB1, USART2);
+            break;
+        case (uint32_t)USART3:
+            DRIVE_RCC_ENABLE_HELPER(APB1, USART3);
+            break;
+        case (uint32_t)UART4:
+            DRIVE_RCC_ENABLE_HELPER(APB1, UART4);
+            break;
+        case (uint32_t)UART5:
+            DRIVE_RCC_ENABLE_HELPER(APB1, UART5);
+            break;
+        case (uint32_t)DMA1:
+            DRIVE_RCC_ENABLE_HELPER(AHB, DMA1);
+            break;
+        case (uint32_t)DMA2:
+            DRIVE_RCC_ENABLE_HELPER(AHB, DMA2);
+            break;
+        default:
+            break;
     }
 }
 
-uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint8_t Channel) {
-    switch (Channel)
-    {
-    case 1:
-        return TIM_GetCapture1(TIMx);
-        break;
-    case 2:
-        return TIM_GetCapture2(TIMx);
-        break;
-    case 3:
-        return TIM_GetCapture3(TIMx);
-        break;
-    case 4:
-        return TIM_GetCapture4(TIMx);
-        break;
-    default:
-        return 0;
-        break;
+uint16_t DRIVE_TIM_GET_CAPTURE(TIM_TypeDef *TIMx, uint16_t Channel)
+{
+    assert_param(IS_TIM_CHANNEL(Channel));
+
+    switch (Channel) {
+        case TIM_Channel_1:
+            return TIM_GetCapture1(TIMx);
+            break;
+        case TIM_Channel_2:
+            return TIM_GetCapture2(TIMx);
+            break;
+        case TIM_Channel_3:
+            return TIM_GetCapture3(TIMx);
+            break;
+        case TIM_Channel_4:
+            return TIM_GetCapture4(TIMx);
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
+void DRIVE_TIM_SET_CAPTURE(TIM_TypeDef *TIMx, uint16_t Channel, uint16_t Value)
+{
+    assert_param(IS_TIM_CHANNEL(Channel));
+
+    switch (Channel) {
+        case TIM_Channel_1:
+            return TIM_SetCompare1(TIMx, Value);
+            break;
+        case TIM_Channel_2:
+            return TIM_SetCompare2(TIMx, Value);
+            break;
+        case TIM_Channel_3:
+            return TIM_SetCompare3(TIMx, Value);
+            break;
+        case TIM_Channel_4:
+            return TIM_SetCompare4(TIMx, Value);
+            break;
     }
 }
 

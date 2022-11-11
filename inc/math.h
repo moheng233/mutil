@@ -10,6 +10,10 @@
         if (_VALUE < _MIN) _VALUE = _MIN; \
     }
 
+#define MATH_SIGN(_VALUE) ((_VALUE) == 0 ? 0: (_VALUE) >= 0 ? 1 : -1)
+
+#define MATH_MOVE_TOWARD(_FROM, _TO, _DELTA) (abs(_TO - _FROM) <= _DELTA ? _TO : _FROM + MATH_SIGN(_TO - _FROM) * _DELTA)
+
 /// 将一个数组的内容复制到另外一个数组中
 #define MATH_COPY_ARRAY(_SOU, _TAR, _LEN)                        \
     {                                                            \
